@@ -1,0 +1,7 @@
+# Primary GUI dependency
+PySide6>=6.5.0
+
+# Notes:
+# This project mainly uses PySide6 (Qt for Python).
+# If you prefer conda, it's recommended to install PySide6 from conda-forge:
+# conda install -c conda-forge pyside6
