@@ -1,0 +1,4 @@
+# Example plate girder input (placeholder)
+project:
+  name: example_basic
+  span_m: 30.0
