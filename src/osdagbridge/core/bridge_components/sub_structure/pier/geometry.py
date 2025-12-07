@@ -1,0 +1,1 @@
+"""Pier geometry stub."""

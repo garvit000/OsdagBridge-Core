@@ -1,0 +1,1 @@
+"""Pile cap geometry stub."""
