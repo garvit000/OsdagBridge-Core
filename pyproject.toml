@@ -3,9 +3,9 @@ requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "osdagbridge"
+name = "osdagbridge-core"
 version = "1.0.0"
-description = "OsdagBridge - Shared core for analysis and design of steel bridges (CLI, Desktop, Web)"
+description = "OsdagBridge Core - Computational, analysis and design engine for steel bridges (Headless / CLI / Web / Desktop)"
 readme = "README.md"
 license = { file = "LICENSE" }
 
@@ -26,7 +26,9 @@ keywords = [
   "analysis",
   "IRC",
   "IS 800",
-  "Osdag"
+  "Osdag",
+  "OpenSeesPy",
+  "ospgrillage"
 ]
 
 classifiers = [
@@ -41,8 +43,8 @@ classifiers = [
 ]
 
 # Runtime dependencies
-
 dependencies = [
+  "numpy",
   "scipy>=1.10.1",
   "fiona",
   "shapely",
@@ -67,7 +69,6 @@ dev = [
 osdagbridge = [
   "core/data/**/*",
   "core/reports/templates/**/*",
-  "desktop/resources/**/*",
 ]
 ospgrillage = [
   "mat_lib.json",
@@ -83,4 +84,3 @@ where = ["src"]
 # Entry points
 [project.scripts]
 osdagbridge-cli = "osdagbridge.cli.__main__:main"
-osdagbridge = "osdagbridge.desktop.__main__:main"
