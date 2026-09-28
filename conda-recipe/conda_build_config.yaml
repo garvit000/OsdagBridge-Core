@@ -1,0 +1,4 @@
+channel_sources:
+  - osdag
+  - conda-forge
+  - defaults
