@@ -264,3 +264,6 @@ src/osdag_map_cache/
 temp_plot.html
 *.html
 tools/
+# Conda build artifacts
+conda-dist/
+conda-bld/
