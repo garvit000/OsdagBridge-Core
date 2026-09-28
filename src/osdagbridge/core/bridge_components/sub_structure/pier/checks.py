@@ -1,0 +1,1 @@
+"""Pier checks stub."""
