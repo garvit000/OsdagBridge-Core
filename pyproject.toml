@@ -64,9 +64,6 @@ test = [
   "pytest>=6.2.2",
 ]
 
-dev = [
-  "pytest>=6.2.2",
-]
 
 # Package data
 [tool.setuptools.package-data]

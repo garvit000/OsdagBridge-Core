@@ -256,7 +256,6 @@ src/osdag_map_cache/
 *.db
 *.sqlite
 *.sqlite3
-!src/osdagbridge/core/data/ResourceFiles/Intg_osdag.sqlite
 */*xlsx
 
 # Project-specific ignores
