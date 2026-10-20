@@ -30,30 +30,29 @@ def _has_tables(sqlitepath: Path) -> bool:
 def ensure_osdagbridge_db() -> bool:
     """Build the OsdagBridge Core Intg_osdag.sqlite database if missing or empty.
 
-    Uses importlib.resources to locate the bundled SQL script from the installed package.
     Returns True if the database is available and valid, False otherwise.
     """
     try:
-        # Resolve assets from the package environment using importlib.resources
-        data_pkg = files("osdagbridge_core.core.data").joinpath("ResourceFiles")
-        sql_resource = data_pkg.joinpath("Intg_osdag.sql")
-        sqlite_resource = data_pkg.joinpath("Intg_osdag.sqlite")
+        # Use direct filesystem navigation relative to this file.
+        # Avoid importlib.resources.files() here to prevent 'OrphanPath' errors
+        # when package aliases or non-standard directory structures are used.
+        resource_dir = Path(__file__).resolve().parent / "ResourceFiles"
+        sql_resource = resource_dir / "Intg_osdag.sql"
+        sqlite_resource = resource_dir / "Intg_osdag.sqlite"
 
         if not sql_resource.is_file():
             logger.warning("OsdagBridge Intg_osdag.sql not found in package resources.")
             return False
 
-        with as_file(sqlite_resource) as sqlitepath:
-            # If the database already exists and has tables, nothing to do
-            if sqlitepath.exists() and sqlitepath.stat().st_size > 0 and _has_tables(sqlitepath):
-                return True
-
-            sql_content = sql_resource.read_text(encoding="utf-8")
-            conn = sqlite3.connect(str(sqlitepath))
-            conn.executescript(sql_content)
-            conn.close()
-            logger.info(f"Initialized OsdagBridge SQLite database at {sqlitepath}")
+        if sqlite_resource.exists() and sqlite_resource.stat().st_size > 0 and _has_tables(sqlite_resource):
             return True
+
+        sql_content = sql_resource.read_text(encoding="utf-8")
+        conn = sqlite3.connect(str(sqlite_resource))
+        conn.executescript(sql_content)
+        conn.close()
+        logger.info(f"Initialized OsdagBridge SQLite database at {sqlite_resource}")
+        return True
     except Exception as e:
         logger.warning(f"Could not initialize OsdagBridge database: {e}")
         return False
