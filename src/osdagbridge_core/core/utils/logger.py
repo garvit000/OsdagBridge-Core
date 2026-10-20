@@ -1,4 +1,5 @@
 """Bridge analysis and design structured logger."""
+import sys
 import logging
 import time
 from datetime import datetime
@@ -44,8 +45,15 @@ class BridgeLogger:
 
     @classmethod
     def get_instance(cls) -> "BridgeLogger":
+        # Keep a process-wide singleton on sys so that if Desktop and Core import
+        # the logger via different module paths (e.g. osdagbridge_core vs core),
+        # both sides share the exact same logger instance, ensuring UI progress updates
+        # and logs stay in sync.
+        if hasattr(sys, "_osdagbridge_core_logger_instance") and sys._osdagbridge_core_logger_instance is not None:
+            return sys._osdagbridge_core_logger_instance
         if cls._instance is None:
             cls._instance = cls()
+        sys._osdagbridge_core_logger_instance = cls._instance
         return cls._instance
 
     def add_callback(self, callback: Callable[[str, str], None]) -> None:
