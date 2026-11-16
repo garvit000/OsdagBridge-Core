@@ -896,6 +896,7 @@ KEY_WL_LONGITUDINAL_WIND_FORCE  = "loading.wind_load.computed.longitudinal_wind_
 KEY_WL_VERTICAL_WIND_FORCE      = "loading.wind_load.computed.vertical_wind_force"
 KEY_WL_TRANSVERSE_WIND_LL       = "loading.wind_load.computed.transverse_wind_ll"
 KEY_WL_LONGITUDINAL_WIND_LL     = "loading.wind_load.computed.longitudinal_wind_ll"
+KEY_WL_LL_APPLICATION_HEIGHT    = "loading.wind_load.computed.live_load_application_height"
 
 #--------------- Temperature Load Sub-Tab -------------------------------------------------
 KEY_TL_TAB                      = "loading.temperature_load.tab"

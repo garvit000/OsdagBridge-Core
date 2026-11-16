@@ -1635,6 +1635,9 @@ class BridgeGrillageModel:
             "FT_kN": FT_total / 1000.0,                 # transverse total force
             "FL_kN": (FL_per_m2 * deck_area) / 1000.0,  # longitudinal total force
             "FV_kN": (FV_per_m2 * deck_area) / 1000.0,  # vertical total force
+            KEY_WL_TRANSVERSE_WIND_LL: FT_LL,
+            KEY_WL_LONGITUDINAL_WIND_LL: FL_LL,
+            KEY_WL_LL_APPLICATION_HEIGHT: wind_ll_eccentricity,
         }
 
     # ============================================================

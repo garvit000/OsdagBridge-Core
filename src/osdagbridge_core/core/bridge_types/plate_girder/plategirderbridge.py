@@ -89,6 +89,7 @@ from osdagbridge_core.core.utils.common import (
     KEY_SL_HORIZONTAL_COEFF, KEY_SL_VERTICAL_COEFF,
     KEY_SL_FORCE_LONGITUDINAL, KEY_SL_FORCE_TRANSVERSE,
     KEY_WL_TRANSVERSE_WIND_FORCE, KEY_WL_LONGITUDINAL_WIND_FORCE, KEY_WL_VERTICAL_WIND_FORCE,
+    KEY_WL_TRANSVERSE_WIND_LL, KEY_WL_LONGITUDINAL_WIND_LL, KEY_WL_LL_APPLICATION_HEIGHT,
     KEY_WL_WIND_LL_ECC_MODE, KEY_WL_WIND_LL_ECC_VALUE,
     KEY_CB_HEIGHT, KEY_RL_HEIGHT,
     KEY_LL_BRAKING_VEHICLES,
@@ -1657,6 +1658,9 @@ class PlateGirderBridge:
             self.output_dict[KEY_WL_TRANSVERSE_WIND_FORCE]   = round(wind_result["FT_kN"], 3)
             self.output_dict[KEY_WL_LONGITUDINAL_WIND_FORCE] = round(wind_result["FL_kN"], 3)
             self.output_dict[KEY_WL_VERTICAL_WIND_FORCE]     = round(wind_result["FV_kN"], 3)
+            self.output_dict[KEY_WL_TRANSVERSE_WIND_LL]      = wind_result[KEY_WL_TRANSVERSE_WIND_LL]
+            self.output_dict[KEY_WL_LONGITUDINAL_WIND_LL]    = wind_result[KEY_WL_LONGITUDINAL_WIND_LL]
+            self.output_dict[KEY_WL_LL_APPLICATION_HEIGHT]   = wind_result[KEY_WL_LL_APPLICATION_HEIGHT]
 
     # ============================================================
     #   Temperature Load Analysis  IRC:6-2017 Cl.215

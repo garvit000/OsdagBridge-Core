@@ -67,6 +67,9 @@ from osdagbridge_core.core.utils.common import (
     KEY_LL_VEHICLE_TOTAL_LOAD_70R_TRACKED,
     KEY_LL_VEHICLE_TOTAL_LOAD_FATIGUE,
     KEY_LL_VEHICLE_TOTAL_LOAD_CLASS_SV,
+    KEY_WL_TRANSVERSE_WIND_LL,
+    KEY_WL_LONGITUDINAL_WIND_LL,
+    KEY_WL_LL_APPLICATION_HEIGHT,
 )
 
 from osdagbridge_core.core.reports.report_utils import (
@@ -388,6 +391,12 @@ def ch3_loads(input_dict, output_dict=None):
         ["Longitudinal Wind Force", _render_value(output_dict, KEY_WL_LONGITUDINAL_WIND_FORCE, " kN")],
         ["Vertical Wind Force", _render_value(output_dict, KEY_WL_VERTICAL_WIND_FORCE, " kN")],
     ]
+
+    wind_ll_rows = [
+        [r"Transverse force, $F_{\mathrm{TLL}}$", _render_value(output_dict, KEY_WL_TRANSVERSE_WIND_LL, " N")],
+        [r"Longitudinal force, $F_{\mathrm{LLL}}$", _render_value(output_dict, KEY_WL_LONGITUDINAL_WIND_LL, " N")],
+        ["Application height above roadway", _render_value(output_dict, KEY_WL_LL_APPLICATION_HEIGHT, " m")],
+    ]
     earthquake_rows = [
         ["Seismic Zone", _render_value(input_dict, 'seismic_zone') + " [from Project Location]"],
         ["Zone Factor, Z", _render_value(input_dict, KEY_SL_ZONE_FACTOR)],
@@ -426,7 +435,11 @@ This section summarizes all loads applied to the bridge and the load combination
     headers=["parameter", "value", "unit"], align=["L", "C", "C"], escape=False) + r"""
 
 \vspace{1em}
-""" + render_parameter_value_table("Wind Load (WL) --- per IRC 6", wind_rows, longtable=True) + r"""
+""" + render_parameter_value_table("Wind Load (WL) --- per IRC 6", wind_rows, longtable=True) + (r"""
+
+\vspace{1em}
+""" + render_parameter_value_table("Wind on Live Load", wind_ll_rows)
+    if KEY_WL_TRANSVERSE_WIND_LL in output_dict else "") + r"""
 
 \vspace{1em}
 """ + render_parameter_value_table("Earthquake Load (EL) --- per IRC 6", earthquake_rows, longtable=True) + r"""
