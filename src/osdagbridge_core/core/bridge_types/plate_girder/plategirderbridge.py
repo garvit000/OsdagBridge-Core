@@ -93,6 +93,7 @@ from osdagbridge_core.core.utils.common import (
     KEY_WL_WIND_LL_ECC_MODE, KEY_WL_WIND_LL_ECC_VALUE,
     KEY_CB_HEIGHT, KEY_RL_HEIGHT,
     KEY_LL_BRAKING_VEHICLES,
+    KEY_LL_APPLIED_BRAKING,
     KEY_MD_WIDTH, KEY_MD_LOAD,
     KEY_RL_WIDTH,
     KEY_TS_DECK_OVERHANG,
@@ -1165,6 +1166,7 @@ class PlateGirderBridge:
                 'reactions':  rxn_sum or {},
             }
 
+        output_dict[KEY_LL_APPLIED_BRAKING] = self.grillage_model.applied_braking
         payload = build_report_payload(request, report_inputs, output_dict)
         payload.girder_report_details = get_girder_report_details(self)
 

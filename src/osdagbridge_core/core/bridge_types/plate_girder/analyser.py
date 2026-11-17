@@ -102,6 +102,7 @@ class BridgeGrillageModel:
 
         # -------------------- BRAKING LOAD (IRC:6 Cl.211) --------------------
         self.braking_load_case = None                  # "Braking Load" — from the governing LL case
+        self.applied_braking = {}
         self.sv_braking_load_case = None               # "Braking Load SV" — only when SV braking is ticked
 
         # self.geometry = GeometryDefinitions(self.L, self.w, self.model)
@@ -2602,6 +2603,7 @@ class BridgeGrillageModel:
         BL, Fx_total, n_nodes = self._build_braking_load_case(
             model, "Braking Load", W_kN, eccentricity)
         self.braking_load_case = BL
+        self.applied_braking[self.governing_ll_name, governing_type] = BL.braking_values
 
         print(
             f"Braking Load from governing {self.governing_ll_name}: "
@@ -2757,6 +2759,7 @@ class BridgeGrillageModel:
             ))
 
         # Unfactored: no load_factor argument.
+        BL.braking_values = (Fx_total / kN, Fx_total * eccentricity / kN, eccentricity)
         model.add_load_case(BL)
         return BL, Fx_total, len(girder_tags)
 
@@ -3383,6 +3386,7 @@ class BridgeGrillageModel:
         # SV braking (Cl.211) goes with the SV at the SV factor.
         sv_bl = getattr(self, "sv_braking_load_case", None)
         if sv_bl is not None:
+            self.applied_braking[sv_lc.name, "SV"] = sv_bl.braking_values
             for entry in sv_bl.load_groups:
                 combo.add_load(entry["load"], load_factor=float(sv_f) * entry["factor"])
 
@@ -3391,9 +3395,10 @@ class BridgeGrillageModel:
         types = [self.vehicle_type_map.get(id(v), '')
                  for v in getattr(self, "sv_vehicles_by_case", {}).get(sv_lc.name, [])]
         types = [t for t in types if t and t != "SV"]
-        other_bl = (getattr(self, "sv_other_braking_cases", {}) or {}).get(
-            max(types, key=self._vehicle_total_weight_kN)) if types else None
+        other_type = max(types, key=self._vehicle_total_weight_kN) if types else None
+        other_bl = (getattr(self, "sv_other_braking_cases", {}) or {}).get(other_type)
         if other_bl is not None:
+            self.applied_braking[sv_lc.name, other_type] = other_bl.braking_values
             for entry in other_bl.load_groups:
                 combo.add_load(entry["load"], load_factor=float(ll_f) * entry["factor"])
 

@@ -61,6 +61,7 @@ from osdagbridge_core.core.utils.common import (
     KEY_LL_IMPACT_FACTOR_70R_TRACKED,
     KEY_LL_IMPACT_FACTOR_FATIGUE,
     KEY_LL_BRAKING_VEHICLES,
+    KEY_LL_APPLIED_BRAKING,
     KEY_CARRIAGEWAY_WIDTH,
     KEY_LL_VEHICLE_TOTAL_LOAD_CLASS_A,
     KEY_LL_VEHICLE_TOTAL_LOAD_70R_WHEELED,
@@ -73,7 +74,7 @@ from osdagbridge_core.core.utils.common import (
 )
 
 from osdagbridge_core.core.reports.report_utils import (
-    _tex, _render_value, render_report_table, render_vehicle_live_load_table,
+    _tex, _render_value, render_report_table,
     render_parameter_value_table
 )
 
@@ -227,6 +228,14 @@ def ch3_loads(input_dict, output_dict=None):
                 vehicle_rows.append([_tex(name), "N/A", "N/A", "No", "---", "---"])
     if not vehicle_rows:
         vehicle_rows = [["None", "---", "---", "No", "---", "---"]]
+
+    labels = {_kind_to_type.get(kind, kind): name for name, key, kind in vehicle_defs if key != KEY_LL_IRC_70R_BOGIE}
+    braking_rows = []
+    for (case, vehicle), values in output_dict.get(KEY_LL_APPLIED_BRAKING, {}).items():
+        side = {"SV-L": "left" if vehicle == "SV" else "right",
+                "SV-R": "right" if vehicle == "SV" else "left"}.get(case.split()[0])
+        label = labels.get(vehicle, labels["sv"] if vehicle == "SV" else vehicle)
+        braking_rows.append([case, f"{label} ({side})" if side else label, *(f"{v:.2f}" for v in values)])
 
     fp_mode  = input_dict.get(KEY_LL_FOOTPATH_PRESSURE_MODE, "")
     fp_value = input_dict.get(KEY_LL_FOOTPATH_PRESSURE_VALUE, "")
@@ -427,7 +436,12 @@ This section summarizes all loads applied to the bridge and the load combination
 """ + render_parameter_value_table("Dead Load for Surfacing (DW)", surfacing_rows) + r"""
 
 \vspace{1em}
-""" + render_vehicle_live_load_table(vehicle_rows) + r"""
+""" + render_report_table("Vehicle Live Loads (LL)", [row[:3] for row in vehicle_rows],
+                          headers=["Vehicle", "Total Load (kN)", "Impact Factor"],
+                          align=["L", "C", "C"], longtable=True, escape=False) + (
+    "\n\\vspace{1em}\n" + render_report_table("Braking Loads (unfactored)", braking_rows,
+        headers=["Live Load Case (including SV)", "Vehicle Used", "Fx (kN)", "Mz (kN-m)", "Eccentricity (m)"],
+        align=["L", "L", "C", "C", "C"], longtable=True) if braking_rows else "") + r"""
 
 \vspace{1em}
 """ + render_report_table(
