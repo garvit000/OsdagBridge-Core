@@ -846,6 +846,9 @@ KEY_SL_HORIZONTAL_COEFF         = "loading.seismic_load.computed.horizontal_coef
 KEY_SL_VERTICAL_COEFF           = "loading.seismic_load.computed.vertical_coeff"
 KEY_SL_FORCE_LONGITUDINAL       = "loading.seismic_load.computed.force_longitudinal"
 KEY_SL_FORCE_TRANSVERSE         = "loading.seismic_load.computed.force_transverse"
+KEY_SL_FORCE_VERTICAL           = "loading.seismic_load.computed.force_vertical"
+KEY_SL_DEAD_LOAD_WEIGHT         = "loading.seismic_load.computed.dead_load_weight"
+KEY_SL_LIVE_LOAD_WEIGHT         = "loading.seismic_load.computed.live_load_weight"
 
 #--------------- Wind Load Sub-Tab -------------------------------------------------
 KEY_WL_TAB                      = "loading.wind_load.tab"

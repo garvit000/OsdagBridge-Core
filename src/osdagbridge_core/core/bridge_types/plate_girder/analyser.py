@@ -1399,6 +1399,8 @@ class BridgeGrillageModel:
             "EQ_X": EQ_X, "EQ_Z": EQ_Z, "EQ_Y": EQ_Y,
             "EQ_a": combo_cases[0], "EQ_b": combo_cases[1], "EQ_c": combo_cases[2],
             "Feq_X_kN": Feq_X_kN, "Feq_Z_kN": Feq_Z_kN,
+            "Feq_Y_kN": Feq_Y_kN,
+            "dead_load_kN": dead_load_kN, "live_load_kN": live_load_kN,
         }
 
     # ============================================================

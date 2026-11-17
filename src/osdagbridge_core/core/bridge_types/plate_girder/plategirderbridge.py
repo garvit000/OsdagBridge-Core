@@ -88,6 +88,7 @@ from osdagbridge_core.core.utils.common import (
     KEY_SL_LIVE_LOAD_MODE, KEY_SL_LIVE_LOAD_VALUE,
     KEY_SL_HORIZONTAL_COEFF, KEY_SL_VERTICAL_COEFF,
     KEY_SL_FORCE_LONGITUDINAL, KEY_SL_FORCE_TRANSVERSE,
+    KEY_SL_FORCE_VERTICAL, KEY_SL_DEAD_LOAD_WEIGHT, KEY_SL_LIVE_LOAD_WEIGHT,
     KEY_WL_TRANSVERSE_WIND_FORCE, KEY_WL_LONGITUDINAL_WIND_FORCE, KEY_WL_VERTICAL_WIND_FORCE,
     KEY_WL_TRANSVERSE_WIND_LL, KEY_WL_LONGITUDINAL_WIND_LL, KEY_WL_LL_APPLICATION_HEIGHT,
     KEY_WL_WIND_LL_ECC_MODE, KEY_WL_WIND_LL_ECC_VALUE,
@@ -2223,10 +2224,13 @@ class PlateGirderBridge:
             partial_safety_factor=1.5,  # IRC:6-2017 Table B.2 seismic ULS
         )
 
-        # Persist the horizontal seismic forces for the report (Table 3.5).
+        # Persist the seismic forces and resolved load weights for the report.
         if eq_result:
             self.output_dict[KEY_SL_FORCE_LONGITUDINAL] = round(eq_result["Feq_X_kN"], 3)
             self.output_dict[KEY_SL_FORCE_TRANSVERSE]   = round(eq_result["Feq_Z_kN"], 3)
+            self.output_dict[KEY_SL_FORCE_VERTICAL]     = round(eq_result["Feq_Y_kN"], 3)
+            self.output_dict[KEY_SL_DEAD_LOAD_WEIGHT]   = round(eq_result["dead_load_kN"], 3)
+            self.output_dict[KEY_SL_LIVE_LOAD_WEIGHT]   = round(eq_result["live_load_kN"], 3)
 
     def vehicle_lane_coordinates(self) -> list:
         """
