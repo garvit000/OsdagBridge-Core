@@ -11,6 +11,7 @@ from osdagbridge_core.core.utils.common import (
     KEY_LL_CUSTOM_VEHICLES,
     KEY_LL_FOOTPATH_PRESSURE_MODE,
     KEY_LL_FOOTPATH_PRESSURE_VALUE,
+    KEY_TS_NO_OF_FOOTPATHS,
     KEY_LL_IRC_70R_BOGIE,
     KEY_LL_IRC_70R_TRACKED,
     KEY_LL_IRC_70R_WHEELED,
@@ -256,6 +257,11 @@ def ch3_loads(input_dict, output_dict=None):
         ["Footpath live load", fp_str.replace(r" kN/m\textsuperscript{2}", ""), r"kN/m\textsuperscript{2}"],
         ["Pressure mode", _tex(fp_mode) if fp_mode not in ("", None) else "N/A", "---"],
     ]
+    if str(input_dict.get(KEY_TS_NO_OF_FOOTPATHS, "")).strip() in {"1", "2"}:
+        footpath_rows.extend([
+            ["Load combination treatment", "Included in LL; LL factors apply", "---"],
+            ["Vehicle impact", "Not applied (IRC 6 Cl. 208.4)", "---"],
+        ])
 
     # Vz / Pz — prefer stored computed values; fall back to IRC6 Table 12
     vz_val = input_dict.get(KEY_WL_HOURLY_MEAN_WIND)
