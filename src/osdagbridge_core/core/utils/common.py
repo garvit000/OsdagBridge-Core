@@ -918,6 +918,7 @@ KEY_TL_TEMP_FALL                = "loading.temperature_load.computed.temp_fall"
 KEY_LC_COMBINATIONS   = "loading.load_combination.combinations"
 KEY_LC_TAB            = "loading.load_combination.tab"
 KEY_ALL_LOAD_COMBINATIONS = "loading.load_combination.all_load_combbinations"
+KEY_APPLIED_LOAD_COMBINATIONS = "loading.load_combination.applied"
 
 # ── ULS Load Combination Case Keys ─────────────────────────────────────────
 

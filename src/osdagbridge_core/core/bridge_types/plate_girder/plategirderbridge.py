@@ -261,6 +261,7 @@ from osdagbridge_core.core.utils.common import (
     KEY_MP_STIFFENER_INTERMEDIATE_SPACING,
     KEY_MP_STIFFENER_LONGITUDINAL,
     KEY_ALL_LOAD_COMBINATIONS,
+    KEY_APPLIED_LOAD_COMBINATIONS,
     KEY_LC_COMBINATIONS,
     )
 
@@ -782,13 +783,15 @@ class PlateGirderBridge:
         uls = self.create_uls_combinations()
         
         sls = self.create_sls_combinations()
+        applied = uls + sls
 
         if getattr(self.grillage_model, "sv_load_cases_list", None):
             bridge_logger.sub_step("Creating Special Vehicle ULS and SLS combinations...")
-            self.create_sv_uls_combinations()
-            self.create_sv_sls_combinations()
+            applied += self.create_sv_uls_combinations()
+            applied += self.create_sv_sls_combinations()
 
         self.output_dict[KEY_ALL_LOAD_COMBINATIONS] = self._all_load_combinations(uls + sls)
+        self.output_dict[KEY_APPLIED_LOAD_COMBINATIONS] = [lc.name for lc in applied]
 
     def _stage_cad_generation(self):
         # Validate that the CAD parameter DTO can be assembled, but do NOT build
