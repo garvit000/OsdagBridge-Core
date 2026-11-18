@@ -386,7 +386,8 @@ def render_report_table(caption, rows, headers=None, widths=None, align=None, lo
             for cell in row:
                 if isinstance(cell, tuple):
                     text, span = cell
-                    cells.append(r"\multicolumn{" + str(span) + r"}{c|}{\textbf{" + (_tex(text) if escape else text) + "}}")
+                    borders = "|c|" if not cells else "c|"
+                    cells.append(r"\multicolumn{" + str(span) + "}{" + borders + r"}{\textbf{" + (_tex(text) if escape else text) + "}}")
                 else:
                     cells.append(_header(cell) if cell else "")
             rendered.append(" & ".join(cells) + r" \\")

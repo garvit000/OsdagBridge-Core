@@ -794,6 +794,7 @@ KEY_LL_IMPACT_FACTOR_70R_TRACKED = "loading.live_load.impact_factor.class_70r_tr
 KEY_LL_IMPACT_FACTOR_FATIGUE = "loading.live_load.impact_factor.fatigue"
 KEY_LL_BRAKING_VEHICLES = "loading.live_load.braking.vehicles"   # vehicle types whose braking is applied
 KEY_LL_APPLIED_BRAKING = "loading.live_load.braking.applied"
+KEY_LL_GOVERNING_CASE = "loading.live_load.governing_case"
 KEY_LL_VEHICLE_TOTAL_LOAD_CLASS_A = "loading.live_load.vehicle_total_load.class_a"
 KEY_LL_VEHICLE_TOTAL_LOAD_70R_WHEELED = "loading.live_load.vehicle_total_load.70r_wheeled"
 KEY_LL_VEHICLE_TOTAL_LOAD_70R_TRACKED = "loading.live_load.vehicle_total_load.70r_tracked"

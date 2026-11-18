@@ -67,6 +67,7 @@ from osdagbridge_core.core.utils.common import (
     KEY_LL_IMPACT_FACTOR_FATIGUE,
     KEY_LL_BRAKING_VEHICLES,
     KEY_LL_APPLIED_BRAKING,
+    KEY_LL_GOVERNING_CASE,
     KEY_CARRIAGEWAY_WIDTH,
     KEY_LL_VEHICLE_TOTAL_LOAD_CLASS_A,
     KEY_LL_VEHICLE_TOTAL_LOAD_70R_WHEELED,
@@ -241,6 +242,11 @@ def ch3_loads(input_dict, output_dict=None):
                 "SV-R": "right" if vehicle == "SV" else "left"}.get(case.split()[0])
         label = labels.get(vehicle, labels["sv"] if vehicle == "SV" else vehicle)
         braking_rows.append([case, f"{label} ({side})" if side else label, *(f"{v:.2f}" for v in values)])
+
+    vehicle_headers = ["Vehicle", "Total Load (kN)", "Impact Factor"]
+    governing_case = output_dict.get(KEY_LL_GOVERNING_CASE)
+    vehicle_header_rows = [[("Governing vehicle load case (LL): " + _tex(governing_case), 3)],
+                           vehicle_headers] if governing_case else None
 
     fp_mode  = input_dict.get(KEY_LL_FOOTPATH_PRESSURE_MODE, "")
     fp_value = input_dict.get(KEY_LL_FOOTPATH_PRESSURE_VALUE, "")
@@ -458,7 +464,8 @@ This section summarizes all loads applied to the bridge and the load combination
 
 \vspace{1em}
 """ + render_report_table("Vehicle Live Loads (LL)", [row[:3] for row in vehicle_rows],
-                          headers=["Vehicle", "Total Load (kN)", "Impact Factor"],
+                          headers=vehicle_headers, header_rows=vehicle_header_rows,
+                          header_clines={0: "1-3"},
                           align=["L", "C", "C"], longtable=True, escape=False) + (
     "\n\\vspace{1em}\n" + render_report_table("Braking Loads (unfactored)", braking_rows,
         headers=["Live Load Case (including SV)", "Vehicle Used", "Fx (kN)", "Mz (kN-m)", "Eccentricity (m)"],
