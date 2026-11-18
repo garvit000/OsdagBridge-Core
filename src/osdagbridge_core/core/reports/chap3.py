@@ -68,6 +68,7 @@ from osdagbridge_core.core.utils.common import (
     KEY_LL_BRAKING_VEHICLES,
     KEY_LL_APPLIED_BRAKING,
     KEY_LL_GOVERNING_CASE,
+    KEY_LL_CASES_CONSIDERED,
     KEY_CARRIAGEWAY_WIDTH,
     KEY_LL_VEHICLE_TOTAL_LOAD_CLASS_A,
     KEY_LL_VEHICLE_TOTAL_LOAD_70R_WHEELED,
@@ -245,6 +246,10 @@ def ch3_loads(input_dict, output_dict=None):
 
     vehicle_headers = ["Vehicle", "Total Load (kN)", "Impact Factor"]
     governing_case = output_dict.get(KEY_LL_GOVERNING_CASE)
+    live_load_case_rows = [
+        [name.replace("Class70RT", "Class 70R Tracked (Note (a))"), f"{factor:.2f}"]
+        for name, factor in output_dict.get(KEY_LL_CASES_CONSIDERED, ())
+    ]
     vehicle_header_rows = [[("Governing vehicle load case (LL): " + _tex(governing_case), 3)],
                            vehicle_headers] if governing_case else None
 
@@ -467,6 +472,9 @@ This section summarizes all loads applied to the bridge and the load combination
                           headers=vehicle_headers, header_rows=vehicle_header_rows,
                           header_clines={0: "1-3"},
                           align=["L", "C", "C"], longtable=True, escape=False) + (
+    "\n\\vspace{1em}\n" + render_report_table("Live-load Cases Considered (Table 6A)", live_load_case_rows,
+        headers=["Live-load case", "Lane factor (Cl. 205, Table 8)"],
+        align=["L", "C"], longtable=True) if live_load_case_rows else "") + (
     "\n\\vspace{1em}\n" + render_report_table("Braking Loads (unfactored)", braking_rows,
         headers=["Live Load Case (including SV)", "Vehicle Used", "Fx (kN)", "Mz (kN-m)", "Eccentricity (m)"],
         align=["L", "L", "C", "C", "C"], longtable=True) if braking_rows else "") + r"""

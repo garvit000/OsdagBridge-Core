@@ -2052,6 +2052,7 @@ class BridgeGrillageModel:
         # Reset stores
         # -------------------------------------------------
         self.vehicle_load_cases_list = []
+        self.live_load_cases_considered = []
         self.vehicle_moving_loads_by_case = {}
         self.vehicle_type_map = {}
 
@@ -2094,6 +2095,7 @@ class BridgeGrillageModel:
 
             model.add_load_case(lc, load_factor=1.0)
             self.vehicle_load_cases_list.append(lc)
+            self.live_load_cases_considered.append((lc.name, lane_factor))
 
         # Flat list kept for backward-compat guard checks
         self.vehicle_moving_loads = [

@@ -96,6 +96,7 @@ from osdagbridge_core.core.utils.common import (
     KEY_LL_BRAKING_VEHICLES,
     KEY_LL_APPLIED_BRAKING,
     KEY_LL_GOVERNING_CASE,
+    KEY_LL_CASES_CONSIDERED,
     KEY_MD_WIDTH, KEY_MD_LOAD,
     KEY_RL_WIDTH,
     KEY_TS_DECK_OVERHANG,
@@ -768,6 +769,7 @@ class PlateGirderBridge:
 
         self.output_dict.update(self.grillage_model.live_load_report_values())
         self.output_dict[KEY_LL_GOVERNING_CASE] = getattr(self.grillage_model, "governing_ll_name", None)
+        self.output_dict[KEY_LL_CASES_CONSIDERED] = getattr(self.grillage_model, "live_load_cases_considered", [])
 
         if getattr(self.grillage_model, "sv_load_cases_list", None):
             self.create_sv_braking_load_case()
