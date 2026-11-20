@@ -2572,8 +2572,8 @@ class DCREngine:
                 self._add_check(6, "Stud Spacing Full-Shear (SL2)", "Cl.606.4.1.1",
                                  s_prov, c.stud_spacing_full_shear_mm, "mm",
                                  note=f"Sprov={s_prov:.0f} ≤ SL2={c.stud_spacing_full_shear_mm:.0f} mm")
-            # 5c. Provided ≤ SR (fatigue).
-            if c.stud_spacing_fatigue_mm > 0.0:
+            # 5c. Provided ≤ SR (fatigue) -- SLS frequent only (Cl.606.4.2).
+            if _sls_freq and c.stud_spacing_fatigue_mm > 0.0:
                 self._add_check(6, "Stud Spacing Fatigue (SR)", "Cl.606.4.2",
                                  s_prov, c.stud_spacing_fatigue_mm, "mm",
                                  note=f"Sprov={s_prov:.0f} ≤ SR={c.stud_spacing_fatigue_mm:.0f} mm")

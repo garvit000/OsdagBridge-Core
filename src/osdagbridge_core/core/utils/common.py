@@ -1335,7 +1335,7 @@ DESIGN_CHECK_ORDER = [
 # Human-readable titles for each check card
 DESIGN_CHECK_TITLES = {
     KEY_CHECK_FLEXURE:          "Strength Limit State (Flexure)",
-    KEY_CHECK_SHEAR_LONG_TRANS: "Resistance to Longitudinal Shear",
+    KEY_CHECK_SHEAR_LONG_TRANS: "Longitudinal Shear, Full-Shear Connection & Detailing",
     KEY_CHECK_SHEAR:            "Strength Limit State (Shear)",
     KEY_CHECK_FATIGUE:          "Resistance to Fatigue",
     KEY_CHECK_INTERACTION:      "Interaction",
